@@ -14,9 +14,32 @@ services:
     build: ./auth-service
     ports:
       - "8001:8000"
+    depends_on:
+      - auth-db
+    env_file:
+      - ./auth-service/.env
     networks:
       - ridex-net
+    volumes:
+      - ./auth-service:/app
+
+  auth-db:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_USER: ride
+      POSTGRES_PASSWORD: ridepass
+      POSTGRES_DB: authdb
+    ports:
+      - "5433:5432"
+    networks:
+      - ridex-net
+    volumes:
+      - pgdata_auth:/var/lib/postgresql/data 
 
 networks:
   ridex-net:
     driver: bridge
+
+volumes:
+  pgdata_auth:
