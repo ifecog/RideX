@@ -3,8 +3,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from app.database import Base, engine
-from app import schema as user_schema
-from app.crud import create_user, get_user_by_email, authenticate_user
+from app.schema import auth_profile as user_schema
+from app.crud.auth_profile import create_user, get_user_by_email, authenticate_user
 from app.security import verify_password
 from app.auth import create_access_token
 from app.dependencies import get_db
@@ -27,7 +27,7 @@ def signin(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depen
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",
-            headers={"WWW-Authticate": "Bearer"}
+            headers={"WWW-Authenticate": "Bearer"}
         )
     
     access_token = create_access_token(data={"sub": str(user.email)})

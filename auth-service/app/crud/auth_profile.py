@@ -3,8 +3,8 @@ from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException, status
 from typing import Optional, List
 
-from app.models import User, UserRole
-from app.schema import UserCreate, UserUpdate
+from app.models.auth_profile import User, UserRole
+from app.schema.auth_profile import UserCreate, UserUpdate
 from app.security import get_password_hash, verify_password
 
 
