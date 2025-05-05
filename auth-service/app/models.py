@@ -7,9 +7,9 @@ from app.database import Base
 
 
 class UserRole(enum.Enum):
-    RIDER = 'rider'
-    DRIVER = 'driver'
-    ADMIN = 'admin'
+    RIDER = 'RIDER'
+    DRIVER = 'DRIVER'
+    ADMIN = 'ADMIN'
     
 
 class User(Base):

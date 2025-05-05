@@ -6,9 +6,9 @@ from enum import Enum
 
 
 class UserRole(str, Enum):
-    RIDER = 'rider'
-    DRIVER = 'driver'
-    ADMIN = 'admin'
+    RIDER = 'RIDER'
+    DRIVER = 'DRIVER'
+    ADMIN = 'ADMIN'
     
     
 class UserBase(BaseModel):
@@ -52,4 +52,32 @@ class UserResponse(UserBase):
     updated_at: Optional[datetime] = None
     
     class Config:
-        orm_mode = True
+        from_attributes = True
+        
+        
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = 'bearer'
+    user: UserResponse
+    
+
+class VerifyEmailRequeest(BaseModel):
+    token: str
+    
+    
+class PasswordResetRequest(BaseModel):
+    email: EmailStr
+    
+    
+class PasswordResetConfirm(BaseModel):
+    new_password: str
+    
+    @validator('new_password')
+    def password_strength(cls, v):
+        if len(v) < 8:
+            raise ValueError('Password should have aat least 8 characters long')
+        return v
+    
+class ResponseMessage(BaseModel):
+    message: str
+    success: bool = True
